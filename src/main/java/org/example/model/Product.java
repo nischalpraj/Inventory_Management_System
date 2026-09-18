@@ -9,8 +9,8 @@ public abstract class Product {
 
     public  Product(int id,String sku, String name, int quantity,double price){
         this.id=id;
-        this.name=name;
         this.sku=sku;
+        this.name=name;
         this.quantity=quantity;
         this.price=price;
     }

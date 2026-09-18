@@ -1,16 +1,16 @@
-package org.example;
+package org.example.model;
 
 public class Electronics extends Product {
 
     private int warranty_months;
 
-    public Electronics(int id, String name, int quantity, double price, int warranty_months) {
-        super(id, name, quantity, price);
+    public Electronics(int id, String sku,String name, int quantity, double price, int warranty_months) {
+        super(id,sku, name, quantity, price);
         this.warranty_months = warranty_months;
     }
 
-    public Electronics(String name,int quantity,double price, int warranty_months){
-        super(name,quantity,price);
+    public Electronics(String sku,String name,int quantity,double price, int warranty_months){
+        super(sku,name,quantity,price);
         this.warranty_months=warranty_months;
     }
 
@@ -21,6 +21,11 @@ public class Electronics extends Product {
     @Override
     public int getRestockThreshold() {
         return 5;
+    }
+
+    @Override
+    public String getCategory(){
+        return "Electronics";
     }
 
     @Override
