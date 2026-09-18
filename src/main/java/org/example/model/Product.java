@@ -1,19 +1,22 @@
-package org.example;
+package org.example.model;
 
 public abstract class Product {
     private  int id;
+    private String sku;
     private String name;
     private int quantity;
     private double price;
 
-    public  Product(int id, String name, int quantity,double price){
+    public  Product(int id,String sku, String name, int quantity,double price){
         this.id=id;
         this.name=name;
+        this.sku=sku;
         this.quantity=quantity;
         this.price=price;
     }
 
-    public Product(String name,int quantity,double price){
+    public Product(String sku,String name,int quantity,double price){
+        this.sku=sku;
         this.name=name;
         this.quantity=quantity;
         this.price=price;
@@ -26,6 +29,10 @@ public abstract class Product {
 
     public String getName() {
         return name;
+    }
+
+    public String getSku(){
+        return sku;
     }
 
     public int getQuantity() {
@@ -45,6 +52,8 @@ public abstract class Product {
     }
 
     public abstract int getRestockThreshold();
+
+    public abstract String getCategory();
 
     @Override
     public String toString(){
