@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import org.example.exception.ProductNotFoundException;
 import org.example.model.Electronics;
 import org.example.model.Grocery;
 import org.example.model.Product;
@@ -31,7 +32,7 @@ public class ProductDAO implements ProductDAOInterface {
             } else if (product instanceof Grocery) {
                 Grocery grocery = (Grocery) product;
                 stmt.setNull(6, Types.INTEGER);
-                stmt.setInt(7, grocery.getExpiry_date());
+                stmt.setString(7, grocery.getExpiry_date());
             }
 
             stmt.executeUpdate();
@@ -63,7 +64,108 @@ public class ProductDAO implements ProductDAOInterface {
     }
 
 
+    @Override
+    public  Product getProductById(int id) throws ProductNotFoundException{
+        String sql="Select * from products WHERE id=?";
 
+        try(Connection conn= DBConnection.getConnection();
+        PreparedStatement stmt=conn.prepareStatement(sql)){
+
+            stmt.setInt(1,id);
+
+            try(ResultSet rs=stmt.executeQuery()){
+                if(rs.next()){
+                    return  mapRowToProduct(rs);
+                }
+                else{
+                    throw new ProductNotFoundException("No Product found with id: "+id);
+                }
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("Failed to fetch product by id: "+ e.getMessage(),e);
+        }
+    }
+
+    @Override
+    public Product getProductBySku(String sku) throws ProductNotFoundException{
+        String sql="Select * from products WHERE sku=?";
+
+        try(Connection conn=DBConnection.getConnection();
+        PreparedStatement stmt=conn.prepareStatement(sql)){
+
+            stmt.setString(1,sku);
+
+            try(ResultSet rs=stmt.executeQuery()){
+                if(rs.next()){
+                    return mapRowToProduct(rs);
+                }
+                else{
+                    throw new ProductNotFoundException("No product found with sku: "+ sku);
+                }
+            }
+
+        }catch(SQLException e){
+            throw new RuntimeException("Failed to fetch product by sku"+ e.getMessage(),e);
+        }
+    }
+
+
+    @Override
+    public boolean updateProduct(Product product){
+        String sql="UPDATE products Set name=?, price=? WHERE id=?";
+
+                try(Connection conn=DBConnection.getConnection();
+                 PreparedStatement stmt=conn.prepareStatement(sql)){
+
+                    stmt.setString(1,product.getName());
+                    stmt.setDouble(2,product.getPrice());
+                    stmt.setInt(3,product.getId());
+
+                    int rowsaffected= stmt.executeUpdate();
+                    return rowsaffected >0;
+
+                }
+                catch(SQLException e){
+                    throw new RuntimeException("Failed to update message "+e.getMessage(),e);
+                }
+
+    }
+
+
+    @Override
+    public boolean deleteProduct(int id){
+        String sql="DELETE from products WHERE id=?";
+
+        try(Connection conn=DBConnection.getConnection();
+        PreparedStatement stmt=conn.prepareStatement(sql)){
+
+            stmt.setInt(1,id);
+
+            int rowsaffected=stmt.executeUpdate();
+            return rowsaffected>0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to delete the product : "+ e.getMessage(),e);
+        }
+    }
+
+
+    @Override
+    public boolean updateQuantity(int id,int newQuantity){
+        String sql="Update products SET quantity=? WHERE id=?";
+
+        try(Connection conn=DBConnection.getConnection();
+        PreparedStatement stmt=conn.prepareStatement(sql)){
+
+            stmt.setInt(1,newQuantity);
+            stmt.setInt(2,id);
+
+            int rowsaffected=stmt.executeUpdate();
+            return rowsaffected>0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed ot update quantity: "+e.getMessage(),e);
+        }
+    }
+    
 
     private Product mapRowToProduct(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
