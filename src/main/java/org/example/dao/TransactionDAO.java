@@ -15,7 +15,7 @@ import java.util.List;
 public class TransactionDAO {
 
     public void recordTransaction(StockTransaction transaction) {
-        String sql = "INSERT INTO stock_transactions (product_id, type, quantity) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO stock_transactions (productid, type, quantity) VALUES (?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
