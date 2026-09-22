@@ -24,27 +24,27 @@ public class InventoryService {
     }
 
 
-    public void stockIn(int productId, int quantity) throws ProductNotFoundException {
+    public void stockIn(int productid, int quantity) throws ProductNotFoundException {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Stock-in quantity must be greater than zero.");
         }
 
-        Product product = productDAO.getProductById(productId);
+        Product product = productDAO.getProductById(productid);
 
         int newQuantity = product.getQuantity() + quantity;
-        productDAO.updateQuantity(productId, newQuantity);
+        productDAO.updateQuantity(productid, newQuantity);
 
-        StockTransaction transaction = new StockTransaction(productId, "IN", quantity, null);
+        StockTransaction transaction = new StockTransaction(productid, "IN", quantity, null);
         transactionDAO.recordTransaction(transaction);
     }
 
 
-    public void stockOut(int productId, int quantity) throws ProductNotFoundException, InsufficientStockException {
+    public void stockOut(int productid, int quantity) throws ProductNotFoundException, InsufficientStockException {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Stock-out quantity must be greater than zero.");
         }
 
-        Product product = productDAO.getProductById(productId);
+        Product product = productDAO.getProductById(productid);
 
         if (quantity > product.getQuantity()) {
             throw new InsufficientStockException(
@@ -54,9 +54,9 @@ public class InventoryService {
         }
 
         int newQuantity = product.getQuantity() - quantity;
-        productDAO.updateQuantity(productId, newQuantity);
+        productDAO.updateQuantity(productid, newQuantity);
 
-        StockTransaction transaction = new StockTransaction(productId, "OUT", quantity, null);
+        StockTransaction transaction = new StockTransaction(productid, "OUT", quantity, null);
         transactionDAO.recordTransaction(transaction);
     }
 

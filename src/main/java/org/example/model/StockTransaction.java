@@ -4,22 +4,22 @@ import java.time.LocalDateTime;
 
 public class StockTransaction {
     private int id;
-    private int productId;
+    private int productid;
     private String type;
     private int quantity;
     private LocalDateTime transactionDate;
 
 
-    public StockTransaction(int id,int productId,String type,int quantity,LocalDateTime transactionDate){
+    public StockTransaction(int id, int productid,String type,int quantity,LocalDateTime transactionDate){
         this.id=id;
-        this.productId=productId;
+        this.productid=productid;
         this.type=type;
         this.quantity=quantity;
         this.transactionDate=transactionDate;
     }
 
-    public StockTransaction(int productId,String type,int quantity,LocalDateTime transactionDate){
-        this.productId=productId;
+    public StockTransaction(int productid,String type,int quantity,LocalDateTime transactionDate){
+        this.productid=productid;
         this.type=type;
         this.quantity=quantity;
         this.transactionDate=transactionDate;
@@ -29,11 +29,11 @@ public class StockTransaction {
         return  id;
     }
 
-    public int getProductId(){
-        return productId;
+    public int getProductID(){
+        return productid;
     }
 
-    public String type(){
+    public String getType(){
         return type;
     }
 
@@ -48,7 +48,7 @@ public class StockTransaction {
 
     @Override
     public String toString() {
-        return "[" + id + "] Product ID: " + productId +
+        return "[" + id + "] Product ID: " + productid +
                 " - Type: " + type +
                 " - Quantity: " + quantity +
                 " - Date: " + transactionDate;

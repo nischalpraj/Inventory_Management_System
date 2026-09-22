@@ -20,7 +20,7 @@ public class TransactionDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, transaction.getProductId());
+            stmt.setInt(1, transaction.getProductID());
             stmt.setString(2, transaction.getType());
             stmt.setInt(3, transaction.getQuantity());
 
@@ -75,14 +75,14 @@ public class TransactionDAO {
 
     private StockTransaction mapRowToTransaction(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
-        int productId = rs.getInt("product_id");
+        int product_id = rs.getInt("productid");
         String type = rs.getString("type");
         int quantity = rs.getInt("quantity");
         Timestamp transactionDate = rs.getTimestamp("transaction_date");
 
         return new StockTransaction(
                 id,
-                productId,
+                product_id,
                 type,
                 quantity,
                 transactionDate != null ? LocalDateTime.parse(transactionDate.toLocalDateTime().toString()) : null

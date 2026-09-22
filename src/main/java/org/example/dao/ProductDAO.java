@@ -133,13 +133,13 @@ public class ProductDAO implements ProductDAOInterface {
 
 
     @Override
-    public boolean deleteProduct(int id){
-        String sql="DELETE from products WHERE id=?";
+    public boolean deleteProduct(String sku){
+        String sql="DELETE from products WHERE sku=?";
 
         try(Connection conn=DBConnection.getConnection();
         PreparedStatement stmt=conn.prepareStatement(sql)){
 
-            stmt.setInt(1,id);
+            stmt.setString(1,sku);
 
             int rowsaffected=stmt.executeUpdate();
             return rowsaffected>0;
@@ -150,14 +150,14 @@ public class ProductDAO implements ProductDAOInterface {
 
 
     @Override
-    public boolean updateQuantity(int id,int newQuantity){
+    public boolean updateQuantity(int productid,int newQuantity){
         String sql="Update products SET quantity=? WHERE id=?";
 
         try(Connection conn=DBConnection.getConnection();
         PreparedStatement stmt=conn.prepareStatement(sql)){
 
             stmt.setInt(1,newQuantity);
-            stmt.setInt(2,id);
+            stmt.setInt(2,productid);
 
             int rowsaffected=stmt.executeUpdate();
             return rowsaffected>0;

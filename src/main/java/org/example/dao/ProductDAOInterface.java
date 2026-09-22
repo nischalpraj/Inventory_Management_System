@@ -17,8 +17,8 @@ public interface ProductDAOInterface {
 
     boolean updateProduct(Product product);
 
-    boolean deleteProduct(int id);
+    boolean deleteProduct(String sku);
 
-    boolean updateQuantity(int id,int newQuantity);
+    boolean updateQuantity(int productid,int newQuantity);
 
 }
